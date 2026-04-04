@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Финансы">
+  <meta name="theme-color" content="#F5F5F5">
+  <title>Финансы</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header id="app-header">
+    <h1 id="header-title">Новый расход</h1>
+    <div id="sync-indicator" class="sync-dot sync-idle" title="Синхронизация"></div>
+  </header>
+
+  <!-- ===== SCREENS ===== -->
+  <main id="app-main">
+
+    <!-- SCREEN: ADD EXPENSE -->
+    <section id="screen-add" class="screen">
+      <div class="amount-container">
+        <input type="text" id="amount-input" inputmode="decimal" placeholder="0" autocomplete="off">
+        <span class="amount-currency">₽</span>
+      </div>
+
+      <div id="category-grid" class="category-grid"></div>
+
+      <div class="bank-selector" id="bank-selector"></div>
+
+      <div class="form-group">
+        <input type="text" id="place-input" placeholder="Где?" autocomplete="off">
+        <div id="place-suggestions" class="suggestions" hidden></div>
+      </div>
+
+      <div class="form-group">
+        <a href="#" id="comment-toggle" class="comment-toggle">Добавить комментарий</a>
+        <div id="comment-area" hidden>
+          <textarea id="comment-input" placeholder="Комментарий..." rows="2"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group receipt-group">
+        <label class="receipt-label" for="receipt-input">
+          <span class="receipt-icon">📷</span> Фото чека
+        </label>
+        <input type="file" id="receipt-input" accept="image/*" capture="environment" hidden>
+        <div id="receipt-preview" hidden>
+          <img id="receipt-img" alt="Чек">
+          <button id="receipt-remove" class="btn-icon" type="button">&times;</button>
+        </div>
+      </div>
+
+      <button id="save-btn" class="btn-primary" type="button">Сохранить</button>
+    </section>
+
+    <!-- SCREEN: HISTORY -->
+    <section id="screen-history" class="screen" hidden>
+      <div class="filter-bar">
+        <button class="filter-btn filter-active" id="filter-today">Сегодня</button>
+        <button class="filter-btn" id="filter-week">Неделя</button>
+        <button class="filter-btn" id="filter-month">Месяц</button>
+      </div>
+      <div id="history-total" class="history-total"></div>
+      <div id="history-list" class="history-list">
+        <div class="empty-state" id="history-empty">
+          <span class="empty-icon">📋</span>
+          <p>Расходов пока нет</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN: ANALYTICS -->
+    <section id="screen-analytics" class="screen" hidden>
+      <div class="month-selector">
+        <button id="analytics-prev" class="btn-icon">&larr;</button>
+        <span id="analytics-month-label">Апрель 2026</span>
+        <button id="analytics-next" class="btn-icon">&rarr;</button>
+      </div>
+
+      <div class="summary-cards">
+        <div class="summary-card">
+          <div class="summary-label">Потрачено</div>
+          <div class="summary-value" id="summary-spent">0 ₽</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">Бюджет</div>
+          <div class="summary-value" id="summary-budget">0 ₽</div>
+        </div>
+        <div class="summary-card accent">
+          <div class="summary-label">Осталось</div>
+          <div class="summary-value" id="summary-remaining">0 ₽</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">В день</div>
+          <div class="summary-value" id="summary-daily">0 ₽</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h3>По категориям</h3>
+        <canvas id="chart-donut" width="300" height="300"></canvas>
+      </div>
+
+      <div class="chart-container">
+        <h3>По дням</h3>
+        <canvas id="chart-daily" width="600" height="300"></canvas>
+      </div>
+
+      <div class="category-breakdown">
+        <h3>Детализация</h3>
+        <div id="category-table"></div>
+      </div>
+    </section>
+
+    <!-- SCREEN: SETTINGS -->
+    <section id="screen-settings" class="screen" hidden>
+      <div class="settings-section">
+        <h3>🔄 GitHub Синхронизация</h3>
+        <div class="form-group">
+          <label>Personal Access Token</label>
+          <div class="input-with-toggle">
+            <input type="password" id="github-token" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+            <button id="toggle-token" class="btn-icon" type="button">👁</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Репозиторий (owner/repo)</label>
+          <input type="text" id="github-repo" placeholder="username/finance-data" autocomplete="off">
+        </div>
+        <button id="save-github-btn" class="btn-secondary" type="button">Сохранить настройки GitHub</button>
+        <button id="sync-now-btn" class="btn-secondary" type="button">🔄 Синхронизировать сейчас</button>
+        <div id="sync-status-text" class="status-text"></div>
+      </div>
+
+      <div class="settings-section">
+        <h3>💰 Бюджет на месяц</h3>
+        <div id="budget-editor"></div>
+        <button id="save-budget-btn" class="btn-secondary" type="button">Сохранить бюджет</button>
+      </div>
+
+      <div class="settings-section">
+        <h3>💵 Доход</h3>
+        <div class="form-group">
+          <label>Аванс (16-е число)</label>
+          <input type="number" id="income-advance" value="60500" inputmode="numeric">
+        </div>
+        <div class="form-group">
+          <label>Зарплата (1-е число)</label>
+          <input type="number" id="income-salary" value="100500" inputmode="numeric">
+        </div>
+        <div class="form-group">
+          <label>Стипендия</label>
+          <input type="number" id="income-stipend" value="3700" inputmode="numeric">
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>📊 Экспорт</h3>
+        <button id="export-btn" class="btn-primary" type="button">📥 Экспорт в Excel</button>
+      </div>
+
+      <div class="settings-section danger-zone">
+        <h3>⚠️ Данные</h3>
+        <button id="clear-data-btn" class="btn-danger" type="button">Очистить все данные</button>
+      </div>
+
+      <div class="app-version">Версия 1.0</div>
+    </section>
+  </main>
+
+  <!-- ===== BOTTOM NAV ===== -->
+  <nav id="bottom-nav">
+    <button class="tab-btn active" data-screen="add">
+      <span class="tab-icon">＋</span>
+      <span class="tab-label">Расход</span>
+    </button>
+    <button class="tab-btn" data-screen="history">
+      <span class="tab-icon">📋</span>
+      <span class="tab-label">История</span>
+    </button>
+    <button class="tab-btn" data-screen="analytics">
+      <span class="tab-icon">📊</span>
+      <span class="tab-label">Аналитика</span>
+    </button>
+    <button class="tab-btn" data-screen="settings">
+      <span class="tab-icon">⚙️</span>
+      <span class="tab-label">Настройки</span>
+    </button>
+  </nav>
+
+  <!-- ===== TOAST ===== -->
+  <div id="toast" class="toast" hidden></div>
+
+  <!-- ===== MODAL ===== -->
+  <div id="modal-overlay" class="modal-overlay" hidden>
+    <div class="modal">
+      <p id="modal-text"></p>
+      <div class="modal-actions">
+        <button id="modal-cancel" class="btn-secondary" type="button">Отмена</button>
+        <button id="modal-confirm" class="btn-danger" type="button">Подтвердить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CDN Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.20.3/dist/xlsx.full.min.js"></script>
+
+  <!-- App -->
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
