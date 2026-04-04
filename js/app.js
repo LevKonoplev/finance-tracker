@@ -19,15 +19,15 @@ function navigate(screen) {
   if (!SCREENS[screen]) screen = 'add';
   currentScreen = screen;
 
-  // Скрыть все экраны
-  document.querySelectorAll('.screen').forEach(s => s.hidden = true);
-  document.getElementById(`screen-${screen}`).hidden = false;
+  // Скрыть все экраны (используем .active class, не hidden)
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(`screen-${screen}`).classList.add('active');
 
   // Обновить заголовок
   document.getElementById('header-title').textContent = SCREENS[screen].title;
 
   // Обновить табы
-  document.querySelectorAll('.tab-btn').forEach(btn => {
+  document.querySelectorAll('.nav-tab').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.screen === screen);
   });
 
@@ -45,13 +45,11 @@ let toastTimer = null;
 export function showToast(message, duration = 2000) {
   const toast = document.getElementById('toast');
   toast.textContent = message;
-  toast.hidden = false;
   toast.classList.add('show');
 
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => {
     toast.classList.remove('show');
-    setTimeout(() => { toast.hidden = true; }, 300);
   }, duration);
 }
 
@@ -65,10 +63,10 @@ export function showModal(text) {
     const confirmBtn = document.getElementById('modal-confirm');
 
     modalText.textContent = text;
-    overlay.hidden = false;
+    overlay.classList.add('open');
 
     function cleanup() {
-      overlay.hidden = true;
+      overlay.classList.remove('open');
       cancelBtn.removeEventListener('click', onCancel);
       confirmBtn.removeEventListener('click', onConfirm);
     }
@@ -85,12 +83,12 @@ export function showModal(text) {
 
 function updateSyncDot(status) {
   const dot = document.getElementById('sync-indicator');
-  dot.className = 'sync-dot';
+  dot.className = 'sync-indicator';
   switch (status) {
-    case 'syncing': dot.classList.add('sync-syncing'); break;
-    case 'success': dot.classList.add('sync-success'); break;
-    case 'error': dot.classList.add('sync-error'); break;
-    default: dot.classList.add('sync-idle'); break;
+    case 'syncing': dot.classList.add('sync-indicator--syncing'); break;
+    case 'success': dot.classList.add('sync-indicator--synced'); break;
+    case 'error': dot.classList.add('sync-indicator--error'); break;
+    default: break;
   }
 }
 
@@ -143,7 +141,7 @@ async function init() {
   }
 
   // Навигация по табам
-  document.querySelectorAll('.tab-btn').forEach(btn => {
+  document.querySelectorAll('.nav-tab').forEach(btn => {
     btn.addEventListener('click', () => navigate(btn.dataset.screen));
   });
 

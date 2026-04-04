@@ -6,6 +6,9 @@ import { getExpensesByDateRange, getExpensesByMonth, deleteExpense, getAllExpens
 let currentFilter = 'today';
 let expandedItemId = null;
 
+// Bank tag class mapping: index -> CSS modifier class
+const BANK_TAG_CLASSES = ['bank-tag--sber', 'bank-tag--alfa', 'bank-tag--tbank', 'bank-tag--yandex'];
+
 // ==================== ЭЛЕМЕНТЫ ====================
 
 const $ = (id) => document.getElementById(id);
@@ -34,8 +37,8 @@ function setupFilterButtons() {
     if (!btn) return;
     btn.addEventListener('click', async () => {
       currentFilter = filter;
-      buttons.forEach(b => { if (b) b.classList.remove('filter-active'); });
-      btn.classList.add('filter-active');
+      buttons.forEach(b => { if (b) b.classList.remove('active'); });
+      btn.classList.add('active');
       await loadAndRender();
     });
   }
@@ -45,7 +48,7 @@ function setupFilterButtons() {
   activate(btnMonth, 'month');
 
   // Начальное выделение
-  if (btnToday) btnToday.classList.add('filter-active');
+  if (btnToday) btnToday.classList.add('active');
 }
 
 // ==================== ЗАГРУЗКА ДАННЫХ ====================
@@ -93,7 +96,17 @@ function renderExpenseList(expenses) {
   if (expenses.length === 0) {
     const empty = document.createElement('div');
     empty.className = 'empty-state';
-    empty.textContent = 'Нет расходов за этот период';
+
+    const icon = document.createElement('span');
+    icon.className = 'empty-state__icon';
+    icon.textContent = '\uD83D\uDCCB';
+    empty.appendChild(icon);
+
+    const title = document.createElement('p');
+    title.className = 'empty-state__title';
+    title.textContent = 'Нет расходов за этот период';
+    empty.appendChild(title);
+
     list.appendChild(empty);
     return;
   }
@@ -116,27 +129,33 @@ function renderExpenseList(expenses) {
   groups.forEach((items, date) => {
     const dayTotal = items.reduce((sum, e) => sum + e.amount, 0);
 
+    // Группа дня
+    const dayGroup = document.createElement('div');
+    dayGroup.className = 'day-group';
+
     // Заголовок группы
     const header = document.createElement('div');
-    header.className = 'day-header';
+    header.className = 'day-group__header';
 
     const dateSpan = document.createElement('span');
-    dateSpan.className = 'day-date';
+    dateSpan.className = 'day-group__date';
     dateSpan.textContent = formatDayHeader(date);
 
     const totalSpan = document.createElement('span');
-    totalSpan.className = 'day-total';
+    totalSpan.className = 'day-group__total';
     totalSpan.textContent = formatMoney(dayTotal);
 
     header.appendChild(dateSpan);
     header.appendChild(totalSpan);
-    list.appendChild(header);
+    dayGroup.appendChild(header);
 
     // Элементы расходов
     items.forEach(exp => {
       const item = createExpenseItem(exp);
-      list.appendChild(item);
+      dayGroup.appendChild(item);
     });
+
+    list.appendChild(dayGroup);
   });
 }
 
@@ -149,102 +168,82 @@ function formatDayHeader(isoDate) {
 function createExpenseItem(expense) {
   const cat = CATEGORIES.find(c => c.name === expense.category);
   const bank = BANKS.find(b => b.name === expense.bank);
+  const bankIndex = BANKS.findIndex(b => b.name === expense.bank);
 
   const wrapper = document.createElement('div');
   wrapper.className = 'expense-item';
   wrapper.dataset.id = expense.id;
 
-  if (expandedItemId === expense.id) {
-    wrapper.classList.add('expanded');
+  // Icon
+  const iconDiv = document.createElement('div');
+  iconDiv.className = 'expense-item__icon';
+  if (cat) {
+    iconDiv.textContent = cat.emoji;
+    iconDiv.style.backgroundColor = cat.color + '1A';
   }
+  wrapper.appendChild(iconDiv);
 
-  // Основное содержимое
-  const main = document.createElement('div');
-  main.className = 'expense-main';
+  // Body
+  const body = document.createElement('div');
+  body.className = 'expense-item__body';
 
-  const leftDiv = document.createElement('div');
-  leftDiv.className = 'expense-left';
+  // Top row: place + amount
+  const top = document.createElement('div');
+  top.className = 'expense-item__top';
+
+  const placeSpan = document.createElement('span');
+  placeSpan.className = 'expense-item__place';
+  placeSpan.textContent = expense.place || (cat ? cat.name : expense.category);
+  top.appendChild(placeSpan);
 
   const amountSpan = document.createElement('span');
-  amountSpan.className = 'expense-amount';
+  amountSpan.className = 'expense-item__amount';
   amountSpan.textContent = formatMoney(expense.amount);
-  leftDiv.appendChild(amountSpan);
+  top.appendChild(amountSpan);
+
+  body.appendChild(top);
+
+  // Bottom row: category chip + bank tag + time
+  const bottom = document.createElement('div');
+  bottom.className = 'expense-item__bottom';
 
   const chipSpan = document.createElement('span');
   chipSpan.className = 'category-chip';
   if (cat) {
     chipSpan.style.background = cat.color + '22';
     chipSpan.style.color = cat.color;
-    chipSpan.textContent = cat.emoji + ' ' + expense.category;
+
+    const chipEmoji = document.createElement('span');
+    chipEmoji.className = 'category-chip__emoji';
+    chipEmoji.textContent = cat.emoji;
+    chipSpan.appendChild(chipEmoji);
+
+    const chipText = document.createTextNode(' ' + expense.category);
+    chipSpan.appendChild(chipText);
   } else {
     chipSpan.textContent = expense.category;
   }
-  leftDiv.appendChild(chipSpan);
+  bottom.appendChild(chipSpan);
 
-  const rightDiv = document.createElement('div');
-  rightDiv.className = 'expense-right';
-
-  if (expense.place) {
-    const placeSpan = document.createElement('span');
-    placeSpan.className = 'expense-place';
-    placeSpan.textContent = expense.place;
-    rightDiv.appendChild(placeSpan);
-  }
-
-  if (bank) {
+  if (bank && bankIndex >= 0) {
     const bankSpan = document.createElement('span');
-    bankSpan.className = 'bank-tag';
-    bankSpan.style.color = bank.color;
+    bankSpan.className = 'bank-tag ' + (BANK_TAG_CLASSES[bankIndex] || '');
     bankSpan.textContent = bank.short;
-    rightDiv.appendChild(bankSpan);
+    bottom.appendChild(bankSpan);
   }
 
   const timeSpan = document.createElement('span');
-  timeSpan.className = 'expense-time';
+  timeSpan.className = 'expense-item__time';
   timeSpan.textContent = expense.time || '';
-  rightDiv.appendChild(timeSpan);
+  bottom.appendChild(timeSpan);
 
-  main.appendChild(leftDiv);
-  main.appendChild(rightDiv);
+  body.appendChild(bottom);
+  wrapper.appendChild(body);
 
-  main.addEventListener('click', () => {
+  // Click to expand (for delete)
+  wrapper.addEventListener('click', () => {
     toggleExpand(wrapper, expense.id);
   });
-
-  wrapper.appendChild(main);
-
-  // Развернутое содержимое
-  const details = document.createElement('div');
-  details.className = 'expense-details';
-
-  if (expense.comment) {
-    const commentDiv = document.createElement('div');
-    commentDiv.className = 'expense-comment';
-    commentDiv.textContent = expense.comment;
-    details.appendChild(commentDiv);
-  }
-
-  if (expense.receipt) {
-    const receiptDiv = document.createElement('div');
-    receiptDiv.className = 'expense-receipt';
-    const img = document.createElement('img');
-    img.src = expense.receipt;
-    img.className = 'receipt-thumb';
-    img.alt = 'Чек';
-    receiptDiv.appendChild(img);
-    details.appendChild(receiptDiv);
-  }
-
-  const deleteBtn = document.createElement('button');
-  deleteBtn.className = 'delete-btn';
-  deleteBtn.textContent = 'Удалить';
-  deleteBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    handleDelete(expense.id);
-  });
-  details.appendChild(deleteBtn);
-
-  wrapper.appendChild(details);
 
   return wrapper;
 }
@@ -288,20 +287,12 @@ async function handleDelete(id) {
 // ==================== ТОСТ ====================
 
 function showToast(message) {
-  const existing = document.querySelector('.toast');
-  if (existing) existing.remove();
-
-  const toast = document.createElement('div');
-  toast.className = 'toast';
+  const toast = document.getElementById('toast');
+  if (!toast) return;
   toast.textContent = message;
-  document.body.appendChild(toast);
-
-  requestAnimationFrame(() => {
-    toast.classList.add('toast-visible');
-  });
+  toast.classList.add('show');
 
   setTimeout(() => {
-    toast.classList.remove('toast-visible');
-    setTimeout(() => toast.remove(), 300);
+    toast.classList.remove('show');
   }, 2000);
 }

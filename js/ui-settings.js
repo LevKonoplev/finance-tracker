@@ -26,9 +26,9 @@ export async function showSettingsScreen() {
 function setupGitHubSection() {
   const tokenInput = $('github-token');
   const repoInput = $('github-repo');
-  const saveBtn = $('github-save-btn');
+  const saveBtn = $('save-github-btn');
   const syncBtn = $('sync-now-btn');
-  const toggleBtn = $('github-token-toggle');
+  const toggleBtn = $('toggle-token');
 
   // Переключатель видимости токена
   if (toggleBtn && tokenInput) {
@@ -38,7 +38,7 @@ function setupGitHubSection() {
         toggleBtn.textContent = 'Скрыть';
       } else {
         tokenInput.type = 'password';
-        toggleBtn.textContent = 'Показать';
+        toggleBtn.textContent = '\uD83D\uDC41';
       }
     });
   }
@@ -160,40 +160,28 @@ async function loadBudgets() {
       const value = budgets[cat.name] !== undefined ? budgets[cat.name] : (DEFAULT_BUDGETS[cat.name] || 0);
 
       const row = document.createElement('div');
-      row.className = 'budget-row';
+      row.className = 'budget-item';
 
-      const label = document.createElement('label');
-      label.className = 'budget-label';
+      const emojiSpan = document.createElement('span');
+      emojiSpan.className = 'budget-item__emoji';
+      emojiSpan.textContent = cat.emoji;
+      row.appendChild(emojiSpan);
 
-      const colorDot = document.createElement('span');
-      colorDot.className = 'budget-cat-color';
-      colorDot.style.background = cat.color;
-      label.appendChild(colorDot);
-
-      const labelText = document.createTextNode(' ' + cat.emoji + ' ' + cat.name);
-      label.appendChild(labelText);
-
-      row.appendChild(label);
-
-      const inputWrap = document.createElement('div');
-      inputWrap.className = 'budget-input-wrap';
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'budget-item__name';
+      nameSpan.textContent = cat.name;
+      row.appendChild(nameSpan);
 
       const input = document.createElement('input');
       input.type = 'number';
       input.id = 'budget-' + cat.name;
-      input.className = 'budget-input';
+      input.className = 'budget-item__input';
       input.value = value;
       input.min = '0';
       input.step = '500';
       input.setAttribute('inputmode', 'numeric');
-      inputWrap.appendChild(input);
+      row.appendChild(input);
 
-      const currency = document.createElement('span');
-      currency.className = 'budget-currency';
-      currency.textContent = '\u20BD';
-      inputWrap.appendChild(currency);
-
-      row.appendChild(inputWrap);
       editor.appendChild(row);
     });
   } catch (err) {
@@ -308,20 +296,12 @@ async function performClearData() {
 // ==================== ТОСТ ====================
 
 function showToast(message) {
-  const existing = document.querySelector('.toast');
-  if (existing) existing.remove();
-
-  const toast = document.createElement('div');
-  toast.className = 'toast';
+  const toast = document.getElementById('toast');
+  if (!toast) return;
   toast.textContent = message;
-  document.body.appendChild(toast);
-
-  requestAnimationFrame(() => {
-    toast.classList.add('toast-visible');
-  });
+  toast.classList.add('show');
 
   setTimeout(() => {
-    toast.classList.remove('toast-visible');
-    setTimeout(() => toast.remove(), 300);
+    toast.classList.remove('show');
   }, 2000);
 }

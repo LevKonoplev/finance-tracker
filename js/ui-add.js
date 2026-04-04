@@ -8,6 +8,9 @@ let selectedBank = null;
 let photoBase64 = null;
 let saveCallback = null;
 
+// Bank class mapping: index -> CSS modifier class
+const BANK_CLASSES = ['bank-btn--sber', 'bank-btn--alfa', 'bank-btn--tbank', 'bank-btn--yandex'];
+
 // ==================== ЭЛЕМЕНТЫ ====================
 
 const $ = (id) => document.getElementById(id);
@@ -26,7 +29,6 @@ export function initAddScreen() {
   setupAmountInput();
   setupPlaceAutocomplete();
   setupCommentToggle();
-  setupReceiptInput();
   setupSaveButton();
 }
 
@@ -43,23 +45,23 @@ function renderCategoryGrid() {
   grid.innerHTML = '';
   CATEGORIES.forEach((cat, index) => {
     const btn = document.createElement('button');
-    btn.className = 'category-btn';
+    btn.className = 'category-grid__item';
     btn.dataset.index = index;
     btn.style.setProperty('--cat-color', cat.color);
 
     const emojiSpan = document.createElement('span');
-    emojiSpan.className = 'category-emoji';
+    emojiSpan.className = 'category-grid__emoji';
     emojiSpan.textContent = cat.emoji;
 
     const nameSpan = document.createElement('span');
-    nameSpan.className = 'category-name';
+    nameSpan.className = 'category-grid__name';
     nameSpan.textContent = cat.name;
 
     btn.appendChild(emojiSpan);
     btn.appendChild(nameSpan);
 
     btn.addEventListener('click', () => {
-      grid.querySelectorAll('.category-btn').forEach(b => b.classList.remove('selected'));
+      grid.querySelectorAll('.category-grid__item').forEach(b => b.classList.remove('selected'));
       if (selectedCategory === index) {
         selectedCategory = null;
       } else {
@@ -81,10 +83,9 @@ function renderBankSelector() {
   container.innerHTML = '';
   BANKS.forEach((bank, index) => {
     const btn = document.createElement('button');
-    btn.className = 'bank-btn';
+    btn.className = 'bank-btn ' + (BANK_CLASSES[index] || '');
     btn.dataset.index = index;
     btn.textContent = bank.short;
-    btn.style.setProperty('--bank-color', bank.color);
 
     btn.addEventListener('click', () => {
       container.querySelectorAll('.bank-btn').forEach(b => b.classList.remove('selected'));
@@ -176,89 +177,17 @@ function renderSuggestions(places, query) {
 // ==================== КОММЕНТАРИЙ ====================
 
 function setupCommentToggle() {
+  const section = $('comment-section');
   const toggle = $('comment-toggle');
-  const area = $('comment-area');
-  if (!toggle || !area) return;
-
-  area.style.display = 'none';
+  if (!section || !toggle) return;
 
   toggle.addEventListener('click', (e) => {
     e.preventDefault();
-    area.style.display = area.style.display === 'none' ? 'block' : 'none';
+    section.classList.toggle('open');
     const input = $('comment-input');
-    if (input && area.style.display === 'block') {
+    if (input && section.classList.contains('open')) {
       input.focus();
     }
-  });
-}
-
-// ==================== ФОТО ЧЕКА ====================
-
-function setupReceiptInput() {
-  const input = $('receipt-input');
-  const preview = $('receipt-preview');
-  if (!input) return;
-
-  input.setAttribute('accept', 'image/*');
-  input.setAttribute('capture', 'environment');
-
-  input.addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    if (!file) {
-      photoBase64 = null;
-      if (preview) preview.innerHTML = '';
-      return;
-    }
-
-    try {
-      photoBase64 = await compressImage(file, 800, 0.7);
-      if (preview) {
-        preview.innerHTML = '';
-        const img = document.createElement('img');
-        img.src = photoBase64;
-        img.className = 'receipt-thumb';
-        preview.appendChild(img);
-      }
-    } catch (err) {
-      console.error('Ошибка сжатия изображения:', err);
-      photoBase64 = null;
-    }
-  });
-}
-
-function compressImage(file, maxSize, quality) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        let { width, height } = img;
-
-        if (width > maxSize || height > maxSize) {
-          if (width > height) {
-            height = Math.round((height * maxSize) / width);
-            width = maxSize;
-          } else {
-            width = Math.round((width * maxSize) / height);
-            height = maxSize;
-          }
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
-
-        const base64 = canvas.toDataURL('image/jpeg', quality);
-        resolve(base64);
-      };
-      img.onerror = () => reject(new Error('Не удалось загрузить изображение'));
-      img.src = e.target.result;
-    };
-    reader.onerror = () => reject(new Error('Не удалось прочитать файл'));
-    reader.readAsDataURL(file);
   });
 }
 
@@ -335,17 +264,13 @@ function resetForm() {
   const amountInput = $('amount-input');
   const placeInput = $('place-input');
   const commentInput = $('comment-input');
-  const commentArea = $('comment-area');
-  const receiptInput = $('receipt-input');
-  const preview = $('receipt-preview');
+  const commentSection = $('comment-section');
   const suggestions = $('place-suggestions');
 
   if (amountInput) amountInput.value = '';
   if (placeInput) placeInput.value = '';
   if (commentInput) commentInput.value = '';
-  if (commentArea) commentArea.style.display = 'none';
-  if (receiptInput) receiptInput.value = '';
-  if (preview) preview.innerHTML = '';
+  if (commentSection) commentSection.classList.remove('open');
   if (suggestions) suggestions.style.display = 'none';
 
   photoBase64 = null;
@@ -354,7 +279,7 @@ function resetForm() {
   selectedCategory = null;
   const grid = $('category-grid');
   if (grid) {
-    grid.querySelectorAll('.category-btn').forEach(b => b.classList.remove('selected'));
+    grid.querySelectorAll('.category-grid__item').forEach(b => b.classList.remove('selected'));
   }
 
   // Восстановить последний банк
@@ -383,12 +308,10 @@ function showToast(message, duration = 2000) {
   const toast = document.getElementById('toast');
   if (!toast) return;
   toast.textContent = message;
-  toast.hidden = false;
   toast.classList.add('show');
 
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => {
     toast.classList.remove('show');
-    setTimeout(() => { toast.hidden = true; }, 300);
   }, duration);
 }

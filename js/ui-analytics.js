@@ -107,10 +107,10 @@ function renderSummaryCards(expenses, budgets) {
 
   const remainingEl = $('summary-remaining');
   if (remainingEl) {
-    const valueEl = remainingEl.querySelector('.summary-value');
+    const valueEl = remainingEl.querySelector('.summary-card__value');
     if (valueEl) {
       valueEl.textContent = formatMoney(remaining);
-      valueEl.className = 'summary-value ' + (remaining >= 0 ? 'positive' : 'negative');
+      valueEl.className = 'summary-card__value ' + (remaining >= 0 ? 'positive' : 'negative');
     }
   }
 
@@ -120,7 +120,7 @@ function renderSummaryCards(expenses, budgets) {
 function setSummaryCard(id, value) {
   const el = $(id);
   if (!el) return;
-  const valueEl = el.querySelector('.summary-value');
+  const valueEl = el.querySelector('.summary-card__value');
   if (valueEl) {
     valueEl.textContent = value;
   }
@@ -282,52 +282,69 @@ function renderCategoryTable(expenses, budgets) {
   if (rows.length === 0) {
     const empty = document.createElement('div');
     empty.className = 'empty-state';
-    empty.textContent = 'Нет данных за этот период';
+
+    const icon = document.createElement('span');
+    icon.className = 'empty-state__icon';
+    icon.textContent = '\uD83D\uDCCA';
+    empty.appendChild(icon);
+
+    const title = document.createElement('p');
+    title.className = 'empty-state__title';
+    title.textContent = 'Нет данных за этот период';
+    empty.appendChild(title);
+
     table.appendChild(empty);
     return;
   }
 
+  // Wrap in breakdown-table
+  const tableEl = document.createElement('div');
+  tableEl.className = 'breakdown-table';
+
   rows.forEach(row => {
     const percent = row.budget > 0 ? (row.spent / row.budget) * 100 : 0;
-    const barColor = getProgressColor(percent);
 
     const tr = document.createElement('div');
-    tr.className = 'category-row';
+    tr.className = 'breakdown-table__row';
 
-    // Заголовок строки
-    const headerDiv = document.createElement('div');
-    headerDiv.className = 'category-row-header';
+    // Emoji
+    const emojiSpan = document.createElement('span');
+    emojiSpan.className = 'breakdown-table__emoji';
+    emojiSpan.textContent = row.emoji;
+    tr.appendChild(emojiSpan);
 
-    const dot = document.createElement('span');
-    dot.className = 'category-dot';
-    dot.style.background = row.color;
-    headerDiv.appendChild(dot);
+    // Info block
+    const info = document.createElement('div');
+    info.className = 'breakdown-table__info';
 
-    const nameSpan = document.createElement('span');
-    nameSpan.className = 'category-row-name';
-    nameSpan.textContent = row.emoji + ' ' + row.name;
-    headerDiv.appendChild(nameSpan);
+    const nameSpan = document.createElement('div');
+    nameSpan.className = 'breakdown-table__name';
+    nameSpan.textContent = row.name;
+    info.appendChild(nameSpan);
 
-    const valuesSpan = document.createElement('span');
-    valuesSpan.className = 'category-row-values';
-    valuesSpan.textContent = formatMoney(row.spent) + ' / ' + formatMoney(row.budget);
-    headerDiv.appendChild(valuesSpan);
-
-    tr.appendChild(headerDiv);
-
-    // Прогресс-бар
+    // Progress bar
     const barBg = document.createElement('div');
-    barBg.className = 'progress-bar-bg';
+    barBg.className = 'progress-bar';
 
     const barFill = document.createElement('div');
-    barFill.className = 'progress-bar-fill';
+    barFill.className = 'progress-bar__fill';
     barFill.style.width = Math.min(percent, 100) + '%';
-    barFill.style.background = barColor;
+    barFill.style.background = getProgressColor(percent);
     barBg.appendChild(barFill);
 
-    tr.appendChild(barBg);
-    table.appendChild(tr);
+    info.appendChild(barBg);
+    tr.appendChild(info);
+
+    // Amount
+    const amountSpan = document.createElement('span');
+    amountSpan.className = 'breakdown-table__amount';
+    amountSpan.textContent = formatMoney(row.spent);
+    tr.appendChild(amountSpan);
+
+    tableEl.appendChild(tr);
   });
+
+  table.appendChild(tableEl);
 }
 
 function getProgressColor(percent) {
