@@ -284,5 +284,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "97574d25-1090-4b61-8eef-7b82608bd68b",
+    "amount": 300,
+    "category": "Развлечения",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "Коворкинг Новая Голландия",
+    "receipt": null,
+    "date": "2026-04-04",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
