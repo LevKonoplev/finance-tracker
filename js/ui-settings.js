@@ -53,6 +53,10 @@ function setupGitHubSection() {
         await setSetting('githubToken', token);
         await setSetting('githubRepo', repo);
 
+        // Пере-инициализировать sync с новыми настройками
+        const { initSync } = await import('./github-sync.js');
+        await initSync();
+
         showToast('Настройки GitHub сохранены');
         updateSyncStatus('Настроено');
       } catch (err) {
@@ -70,11 +74,11 @@ function setupGitHubSection() {
         syncBtn.textContent = 'Синхронизация...';
         updateSyncStatus('Синхронизация...');
 
-        // Динамический импорт github-sync
-        const { githubSync } = await import('./github-sync.js');
-        await githubSync.sync();
+        const { initSync, fullSync } = await import('./github-sync.js');
+        await initSync();
+        const result = await fullSync();
 
-        updateSyncStatus('Синхронизировано: ' + new Date().toLocaleTimeString('ru-RU'));
+        updateSyncStatus(`Синхронизировано: ↓${result.pulled} ↑${result.pushed} (${new Date().toLocaleTimeString('ru-RU')})`);
         showToast('Синхронизация завершена');
       } catch (err) {
         console.error('Ошибка синхронизации:', err);
