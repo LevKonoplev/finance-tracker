@@ -362,5 +362,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "293fddfd-a8bb-429c-a9bc-9dc05b268906",
+    "amount": 278,
+    "category": "Еда вне дома",
+    "bank": "Яндекс Банк",
+    "place": "",
+    "comment": "2 френчдога (мне)",
+    "receipt": null,
+    "date": "2026-04-04",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
