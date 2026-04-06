@@ -349,5 +349,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "54b7580c-a83c-41e6-952c-754c32b0e04d",
+    "amount": 1100,
+    "category": "Развлечения",
+    "bank": "Яндекс Банк",
+    "place": "",
+    "comment": "Кино  с Ксюшей - проект, конец света",
+    "receipt": null,
+    "date": "2026-04-04",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
