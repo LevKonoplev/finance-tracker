@@ -193,5 +193,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "2e6a2c92-463b-4a95-86df-236d1499312d",
+    "amount": 352,
+    "category": "Еда вне дома",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "Еда на военку",
+    "receipt": null,
+    "date": "2026-04-03",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
