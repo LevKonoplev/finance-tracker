@@ -37,5 +37,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "89d60759-0036-40a7-b937-697972f22ab8",
+    "amount": 1800,
+    "category": "Развлечения",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "Скальдом с КСЮШЕЙ",
+    "receipt": null,
+    "date": "2026-04-01",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
