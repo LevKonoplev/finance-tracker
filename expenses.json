@@ -505,5 +505,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "95abd345-76fd-4e6d-9bd0-b370f4605e84",
+    "amount": 1570,
+    "category": "Еда вне дома",
+    "bank": "Яндекс Банк",
+    "place": "",
+    "comment": "Lines завтрак (Кофе + Грильчиз + Тирамису)",
+    "receipt": null,
+    "date": "2026-04-06",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
