@@ -492,5 +492,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "5fb3c3cd-fb2a-4518-97ea-7d7344038a64",
+    "amount": 657.34,
+    "category": "Продукты",
+    "bank": "Яндекс Банк",
+    "place": "",
+    "comment": "Помело, куличи и сок",
+    "receipt": null,
+    "date": "2026-04-05",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
