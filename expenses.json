@@ -245,5 +245,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "cac82bd8-d358-4469-af04-4298b850d4c6",
+    "amount": 90.96,
+    "category": "Транспорт",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "Whoosh",
+    "receipt": null,
+    "date": "2026-04-03",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
