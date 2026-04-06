@@ -388,5 +388,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "183f6e76-6e31-44a0-9405-cbcc28e631db",
+    "amount": 280,
+    "category": "Еда вне дома",
+    "bank": "Яндекс Банк",
+    "place": "",
+    "comment": "Блинчик Ксюше",
+    "receipt": null,
+    "date": "2026-04-04",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
