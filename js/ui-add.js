@@ -227,7 +227,7 @@ async function handleSave() {
     place: placeInput ? placeInput.value.trim() : '',
     comment: commentInput ? commentInput.value.trim() : '',
     receipt: photoBase64 || null,
-    date: todayISO(),
+    date: $('date-input') ? $('date-input').value || todayISO() : todayISO(),
     time: nowTime(),
     createdAt: new Date().toISOString(),
     synced: false,
@@ -267,6 +267,8 @@ function resetForm() {
   const commentSection = $('comment-section');
   const suggestions = $('place-suggestions');
 
+  const dateInput = $('date-input');
+  if (dateInput) dateInput.value = todayISO();
   if (amountInput) amountInput.value = '';
   if (placeInput) placeInput.value = '';
   if (commentInput) commentInput.value = '';

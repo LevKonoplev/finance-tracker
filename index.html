@@ -36,6 +36,11 @@
       <div class="bank-selector" id="bank-selector"></div>
 
       <div class="input-row">
+        <span class="input-row__icon">📅</span>
+        <input type="date" id="date-input" class="input-row__field">
+      </div>
+
+      <div class="input-row">
         <span class="input-row__icon">&#128205;</span>
         <input type="text" id="place-input" class="input-row__field" placeholder="Где?" autocomplete="off">
       </div>
@@ -66,6 +71,9 @@
           <p class="empty-state__title">Расходов пока нет</p>
           <p class="empty-state__text">Добавьте первый расход на главном экране</p>
         </div>
+      </div>
+      <div class="settings-buttons" id="history-actions" style="margin-top:16px; display:none;">
+        <button id="clear-history-btn" class="btn-danger" type="button">Очистить всю историю</button>
       </div>
     </section>
 

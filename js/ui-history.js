@@ -1,5 +1,5 @@
 import { CATEGORIES, BANKS, formatMoney, formatDate, todayISO, DAY_NAMES } from './constants.js';
-import { getExpensesByDateRange, getExpensesByMonth, deleteExpense, getAllExpenses } from './db.js';
+import { getExpensesByDateRange, getExpensesByMonth, deleteExpense, getAllExpenses, clearAllData } from './db.js';
 
 // ==================== СОСТОЯНИЕ ====================
 
@@ -17,6 +17,7 @@ const $ = (id) => document.getElementById(id);
 
 export function initHistoryScreen() {
   setupFilterButtons();
+  setupClearHistory();
 }
 
 export async function showHistoryScreen() {
@@ -92,6 +93,10 @@ function renderExpenseList(expenses) {
   if (!list) return;
 
   list.innerHTML = '';
+
+  // Показать/скрыть кнопку очистки
+  const actionsDiv = $('history-actions');
+  if (actionsDiv) actionsDiv.style.display = expenses.length > 0 ? 'flex' : 'none';
 
   if (expenses.length === 0) {
     const empty = document.createElement('div');
@@ -240,9 +245,36 @@ function createExpenseItem(expense) {
   body.appendChild(bottom);
   wrapper.appendChild(body);
 
-  // Click to expand (for delete)
+  // Кнопка удаления (видна при раскрытии)
+  const deleteBtn = document.createElement('button');
+  deleteBtn.className = 'btn-danger';
+  deleteBtn.textContent = 'Удалить';
+  deleteBtn.style.cssText = 'display:none; margin-top:8px; padding:8px; font-size:0.8125rem;';
+  deleteBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    handleDelete(expense.id);
+  });
+  wrapper.appendChild(deleteBtn);
+
+  // Click to expand (show delete button)
   wrapper.addEventListener('click', () => {
-    toggleExpand(wrapper, expense.id);
+    const isExpanded = wrapper.classList.contains('expanded');
+    // Свернуть все
+    const list = $('history-list');
+    if (list) {
+      list.querySelectorAll('.expense-item').forEach(el => {
+        el.classList.remove('expanded');
+        const btn = el.querySelector('.btn-danger');
+        if (btn) btn.style.display = 'none';
+      });
+    }
+    if (!isExpanded) {
+      wrapper.classList.add('expanded');
+      deleteBtn.style.display = 'flex';
+      expandedItemId = expense.id;
+    } else {
+      expandedItemId = null;
+    }
   });
 
   return wrapper;
@@ -282,6 +314,31 @@ async function handleDelete(id) {
     console.error('Ошибка удаления:', err);
     showToast('Ошибка удаления');
   }
+}
+
+// ==================== ОЧИСТКА ИСТОРИИ ====================
+
+function setupClearHistory() {
+  const btn = $('clear-history-btn');
+  if (!btn) return;
+
+  btn.addEventListener('click', async () => {
+    const confirmed = confirm('Удалить ВСЕ расходы? Это действие нельзя отменить.');
+    if (!confirmed) return;
+
+    const doubleConfirmed = confirm('Точно удалить ВСЕ расходы из истории?');
+    if (!doubleConfirmed) return;
+
+    try {
+      await clearAllData();
+      expandedItemId = null;
+      await loadAndRender();
+      showToast('История очищена');
+    } catch (err) {
+      console.error('Ошибка очистки:', err);
+      showToast('Ошибка очистки');
+    }
+  });
 }
 
 // ==================== ТОСТ ====================
