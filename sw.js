@@ -1,4 +1,4 @@
-const CACHE_NAME = 'finance-v2';
+const CACHE_NAME = 'finance-v3';
 
 const APP_ASSETS = [
   './',
@@ -11,6 +11,7 @@ const APP_ASSETS = [
   './js/ui-history.js',
   './js/ui-analytics.js',
   './js/ui-settings.js',
+  './js/ui-bulk.js',
   './js/github-sync.js',
   './js/export.js',
   './manifest.json',

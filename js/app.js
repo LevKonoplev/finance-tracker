@@ -2,6 +2,7 @@ import { initAddScreen, showAddScreen, onSave } from './ui-add.js';
 import { initHistoryScreen, showHistoryScreen } from './ui-history.js';
 import { initAnalyticsScreen, showAnalyticsScreen } from './ui-analytics.js';
 import { initSettingsScreen, showSettingsScreen } from './ui-settings.js';
+import { initBulkScreen, showBulkScreen, onBulkSave } from './ui-bulk.js';
 import { initSync, fullSync, pushExpense, onStatusChange, isConfigured } from './github-sync.js';
 
 // ==================== РОУТЕР ====================
@@ -10,6 +11,7 @@ const SCREENS = {
   add: { title: 'Новый расход', show: showAddScreen },
   history: { title: 'История', show: showHistoryScreen },
   analytics: { title: 'Аналитика', show: showAnalyticsScreen },
+  bulk: { title: 'Массовый ввод', show: showBulkScreen },
   settings: { title: 'Настройки', show: showSettingsScreen },
 };
 
@@ -122,6 +124,7 @@ async function init() {
   initAddScreen();
   initHistoryScreen();
   initAnalyticsScreen();
+  initBulkScreen();
   initSettingsScreen();
 
   // GitHub Sync
@@ -132,6 +135,13 @@ async function init() {
   onSave((expense) => {
     if (isConfigured()) {
       pushExpense(expense).catch(console.error);
+    }
+  });
+
+  // Массовый ввод → тоже push
+  onBulkSave((expense) => {
+    if (isConfigured()) {
+      return pushExpense(expense);
     }
   });
 
