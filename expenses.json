@@ -271,5 +271,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "e8d05098-eeec-48ba-951e-ce33ee088237",
+    "amount": 85,
+    "category": "Табак",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "Зажигалка и жвачка",
+    "receipt": null,
+    "date": "2026-04-04",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
