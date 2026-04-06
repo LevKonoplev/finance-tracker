@@ -1121,8 +1121,9 @@ img {
   transform: translateX(-50%) translateY(120px);
   z-index: 500;
   padding: var(--space-sm) var(--space-lg);
-  background: var(--text);
-  color: #fff;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: var(--radius-full);
   font-size: 0.875rem;
   font-weight: 500;
