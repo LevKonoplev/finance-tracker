@@ -63,5 +63,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "bddf458e-200f-40a0-9f5d-9520f760082d",
+    "amount": 371.85,
+    "category": "Еда вне дома",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "лента",
+    "receipt": null,
+    "date": "2026-04-02",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
