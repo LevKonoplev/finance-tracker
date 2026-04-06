@@ -154,5 +154,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "eddb28d6-6f8a-4766-9650-94ebacc33e67",
+    "amount": 89.99,
+    "category": "Еда вне дома",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "Кока-кола",
+    "receipt": null,
+    "date": "2026-04-02",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
