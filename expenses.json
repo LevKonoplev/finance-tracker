@@ -50,5 +50,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "fa79b5b6-c2dd-43fb-aea5-baabd4b302dd",
+    "amount": 306,
+    "category": "Транспорт",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "Такси",
+    "receipt": null,
+    "date": "2026-04-02",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
