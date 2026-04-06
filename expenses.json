@@ -11,5 +11,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "02789bde-c246-4fd5-982f-94bfa108a894",
+    "amount": 570,
+    "category": "Еда вне дома",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "Милти",
+    "receipt": null,
+    "date": "2026-04-01",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
