@@ -453,5 +453,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "b92d1ca5-647a-4c1b-be1d-2d9ed7de3e5f",
+    "amount": 304,
+    "category": "Еда вне дома",
+    "bank": "Яндекс Банк",
+    "place": "",
+    "comment": "Чаевые в Dizengof/99",
+    "receipt": null,
+    "date": "2026-04-05",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
