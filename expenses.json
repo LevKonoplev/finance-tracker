@@ -206,5 +206,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "1f4c39dc-2e01-4541-aef4-58d42ee57b81",
+    "amount": 805,
+    "category": "Еда вне дома",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "KFC",
+    "receipt": null,
+    "date": "2026-04-03",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
