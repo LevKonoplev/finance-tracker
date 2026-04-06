@@ -89,5 +89,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "2d4083be-2471-4bc8-9ccb-4b5ee224c881",
+    "amount": 260,
+    "category": "Транспорт",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "Каршеринг",
+    "receipt": null,
+    "date": "2026-04-02",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
