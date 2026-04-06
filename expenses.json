@@ -297,5 +297,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "a936e0eb-5540-4c86-b5f0-0cf68b7ce83b",
+    "amount": 2000,
+    "category": "Связь/подписки",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "BEGET SERVER",
+    "receipt": null,
+    "date": "2026-04-04",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
