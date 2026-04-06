@@ -219,5 +219,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "3bf14fa2-23f1-4056-b502-d5fceef81870",
+    "amount": 269,
+    "category": "Табак",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "Сигареты",
+    "receipt": null,
+    "date": "2026-04-03",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
