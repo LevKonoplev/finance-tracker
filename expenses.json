@@ -258,5 +258,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "2cb771ad-9731-455b-bc43-73c5931635db",
+    "amount": 1461.34,
+    "category": "Продукты",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "Продукты для салата домой",
+    "receipt": null,
+    "date": "2026-04-03",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
