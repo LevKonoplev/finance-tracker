@@ -479,5 +479,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "6252d1de-8773-4068-af68-50c6e27cfd68",
+    "amount": 379,
+    "category": "Табак",
+    "bank": "Яндекс Банк",
+    "place": "",
+    "comment": "Сигареты и две жвачки",
+    "receipt": null,
+    "date": "2026-04-05",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
