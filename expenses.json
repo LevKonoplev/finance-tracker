@@ -466,5 +466,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "f4679f20-1ecb-4cd8-b4fb-1d3ba01ccc2c",
+    "amount": 66,
+    "category": "Транспорт",
+    "bank": "Яндекс Банк",
+    "place": "",
+    "comment": "Элка с Ксюшей домой",
+    "receipt": null,
+    "date": "2026-04-05",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
