@@ -102,5 +102,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "38f2a8df-5179-4b8f-8297-1ccf05334ef3",
+    "amount": 15000,
+    "category": "Переводы людям",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "Вернул деньги",
+    "receipt": null,
+    "date": "2026-04-02",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
