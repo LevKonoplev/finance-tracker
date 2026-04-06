@@ -323,5 +323,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "d447c1fe-ba0d-4f0f-b57f-3116c0f02dc0",
+    "amount": 494,
+    "category": "Связь/подписки",
+    "bank": "Яндекс Банк",
+    "place": "",
+    "comment": "Domen TR REG.RU",
+    "receipt": null,
+    "date": "2026-04-03",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
