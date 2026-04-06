@@ -115,5 +115,18 @@
     "time": "16:07",
     "createdAt": "2026-04-06T13:07:28.086Z",
     "synced": false
+  },
+  {
+    "id": "fa818876-3349-4a53-9832-5a0305463fde",
+    "amount": 710,
+    "category": "Кофе",
+    "bank": "Сбербанк",
+    "place": "",
+    "comment": "Трубочка + Капучино",
+    "receipt": null,
+    "date": "2026-04-02",
+    "time": "16:07",
+    "createdAt": "2026-04-06T13:07:28.086Z",
+    "synced": false
   }
 ]
