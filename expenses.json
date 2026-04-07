@@ -544,5 +544,18 @@
     "time": "20:25",
     "createdAt": "2026-04-06T17:25:22.871Z",
     "synced": false
+  },
+  {
+    "id": "b61ba3c7-d6ef-4e8d-b01b-6df3d558bac6",
+    "amount": 240,
+    "category": "Еда вне дома",
+    "bank": "Яндекс Банк",
+    "place": "",
+    "comment": "",
+    "receipt": null,
+    "date": "2026-04-07",
+    "time": "10:17",
+    "createdAt": "2026-04-07T07:17:49.861Z",
+    "synced": false
   }
 ]
