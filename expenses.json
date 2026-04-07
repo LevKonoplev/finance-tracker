@@ -557,5 +557,18 @@
     "time": "10:17",
     "createdAt": "2026-04-07T07:17:49.861Z",
     "synced": false
+  },
+  {
+    "id": "88ec039e-ccaa-4003-ad3f-28cb4b81c634",
+    "amount": 720.27,
+    "category": "Еда вне дома",
+    "bank": "Яндекс Банк",
+    "place": "Теремок",
+    "comment": "",
+    "receipt": null,
+    "date": "2026-04-07",
+    "time": "11:59",
+    "createdAt": "2026-04-07T08:59:27.887Z",
+    "synced": false
   }
 ]
